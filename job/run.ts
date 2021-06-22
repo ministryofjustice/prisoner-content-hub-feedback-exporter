@@ -5,4 +5,4 @@ const run = async () => {
   logger.info(`Running application: ${applicationVersion}`)
 }
 
-run().catch(e => console.error('Wah'))
+run().catch(e => console.error('Problem running job', e))
