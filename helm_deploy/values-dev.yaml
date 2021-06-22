@@ -1,15 +1,4 @@
 ---
 # Per environment values which override defaults in prisoner-content-hub-feedback-exporter/values.yaml
 
-generic-service:
-  replicaCount: 2
-
-  ingress:
-    host: prisoner-content-hub-feedback-exporter-dev.hmpps.service.justice.gov.uk
-
-  env:
-    INGRESS_URL: "https://prisoner-content-hub-feedback-exporter-dev.hmpps.service.justice.gov.uk"
-    HMPPS_AUTH_URL: "https://sign-in-dev.hmpps.service.justice.gov.uk/auth"
-    TOKEN_VERIFICATION_API_URL: "https://token-verification-api-dev.prison.service.justice.gov.uk"
-
 
