@@ -1,0 +1,25 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: send-reminders
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Replace
+  failedJobsHistoryLimit: 5
+  startingDeadlineSeconds: 300
+  successfulJobsHistoryLimit: 5
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: prisoner-content-hub-feedback-exporter
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
+            args:
+            - npm
+            - start
+{{ include "deployment.envs" . | nindent 12 }}
+          restartPolicy: Never
+          activeDeadlineSeconds: 240

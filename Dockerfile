@@ -2,7 +2,7 @@
 ARG BUILD_NUMBER
 ARG GIT_REF
 
-FROM node:14.15-buster-slim as base
+FROM node:14.17-buster-slim as base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
@@ -25,7 +25,7 @@ ARG GIT_REF
 RUN apt-get install -y make python g++
 
 COPY package*.json ./
-RUN CYPRESS_INSTALL_BINARY=0 npm ci --no-audit
+RUN npm ci --no-audit
 
 COPY . .
 RUN npm run build
@@ -51,9 +51,6 @@ COPY --from=build --chown=appuser:appgroup \
 
 COPY --from=build --chown=appuser:appgroup \
         /app/build-info.json ./dist/build-info.json
-
-COPY --from=build --chown=appuser:appgroup \
-        /app/assets ./assets
 
 COPY --from=build --chown=appuser:appgroup \
         /app/dist ./dist

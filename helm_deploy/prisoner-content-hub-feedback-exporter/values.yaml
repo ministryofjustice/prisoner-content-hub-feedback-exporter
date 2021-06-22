@@ -1,0 +1,7 @@
+---
+image:
+  repository: quay.io/hmpps/prisoner-content-hub-feedback-exporter
+  tag: latest
+
+env:
+  NOMIS_AUTH_URL: https://sign-in-preprod.hmpps.service.justice.gov.uk/auth
