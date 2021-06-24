@@ -1,6 +1,6 @@
 # Stage: base image
-ARG BUILD_NUMBER
-ARG GIT_REF
+ARG BUILD_NUMBER=1_0_0
+ARG GIT_REF=dummy
 
 FROM node:14.17-buster-slim as base
 
@@ -30,8 +30,6 @@ RUN npm ci --no-audit
 COPY . .
 RUN npm run build
 
-ENV BUILD_NUMBER ${BUILD_NUMBER:-1_0_0}
-ENV GIT_REF ${GIT_REF:-dummy}
 RUN export BUILD_NUMBER=${BUILD_NUMBER} && \
     export GIT_REF=${GIT_REF} && \
     npm run record-build-info
@@ -47,10 +45,8 @@ RUN apt-get autoremove -y && \
 COPY --from=build --chown=appuser:appgroup \
         /app/package.json \
         /app/package-lock.json \
+        /app/build-info.json \
         ./
-
-COPY --from=build --chown=appuser:appgroup \
-        /app/build-info.json ./dist/build-info.json
 
 COPY --from=build --chown=appuser:appgroup \
         /app/dist ./dist
