@@ -10,8 +10,17 @@ import HttpClient from './utils/httpClient'
 
 const feedbackRetriever = new FeedbackRetriever(new HttpClient())
 
+const getCredentials = () => {
+  try {
+    return JSON.parse(config.sheetsClient.serviceAccountKey)
+  } catch (e) {
+    // Deliberately obfuscate actual error as may contain creds/key
+    throw new Error('An error occurred parsing creds')
+  }
+}
+
 const auth = new google.auth.GoogleAuth({
-  credentials: JSON.parse(config.sheetsClient.serviceAccountKey),
+  credentials: getCredentials(),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 google.options({ auth })
