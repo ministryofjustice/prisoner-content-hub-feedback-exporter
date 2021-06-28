@@ -5,20 +5,20 @@ Environment variables for web and worker containers
 {{- define "deployment.envs" }}
 env:
     - name: SPREADSHEET_ID
-        valueFrom:
+      valueFrom:
         secretKeyRef:
-            name: {{ include "prisoner-content-hub-feedback-exporter.fullname" . }}
+            name: {{ include "app.name" . }}
             key: SPREADSHEET_ID
 
     - name: SERVICE_ACCOUNT_KEY
-        valueFrom:
+      valueFrom:
         secretKeyRef:
-            name: {{ include "prisoner-content-hub-feedback-exporter.fullname" . }}
+            name: {{ include "app.name" . }}
             key: SERVICE_ACCOUNT_KEY
 
     - name: ELASTICSEARCH_ENDPOINT
-        valueFrom:
+      valueFrom:
         secretKeyRef:
-            name: {{ include "prisoner-content-hub-feedback-exporter.fullname" . }}
+            name: {{ include "app.name" . }}
             key: ELASTICSEARCH_ENDPOINT
 {{- end -}}

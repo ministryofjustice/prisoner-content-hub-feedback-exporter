@@ -10,7 +10,7 @@
     "start": "node dist/run.js | bunyan -o short",
     "start:dev": "npm run clean && npm run build && npm run start",
     "record-build-info": "node ./bin/record-build-info",
-    "lint": "eslint . --cache --max-warnings 0",
+    "lint": "eslint . --cache --max-warnings 10",
     "typecheck": "tsc",
     "test": "jest",
     "security_audit": "npx audit-ci --config audit-ci.json",
