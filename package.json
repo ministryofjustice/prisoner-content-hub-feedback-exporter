@@ -10,7 +10,7 @@
     "start": "node dist/run.js | bunyan -o short",
     "start:dev": "npm run clean && npm run build && npm run start",
     "record-build-info": "node ./bin/record-build-info",
-    "lint": "eslint . --cache --max-warnings 0",
+    "lint": "eslint . --cache --max-warnings 10",
     "typecheck": "tsc",
     "test": "jest",
     "security_audit": "npx audit-ci --config audit-ci.json",
@@ -70,11 +70,16 @@
     ]
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
-    "dotenv": "^10.0.0"
+    "date-fns": "^2.22.1",
+    "dotenv": "^10.0.0",
+    "elastic-builder": "^2.16.0",
+    "googleapis": "^78.0.0"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/bunyan": "^1.8.6",
     "@types/bunyan-format": "^0.2.3",
     "@types/jest": "^26.0.23",

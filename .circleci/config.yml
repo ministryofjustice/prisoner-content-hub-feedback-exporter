@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.2
+  hmpps: ministryofjustice/hmpps@3.5
   slack: circleci/slack@4.4.2
 
 parameters:
@@ -9,11 +9,15 @@ parameters:
     type: string
     default: hub_frontend
 
+  node-version:
+    type: string
+    default: 14.17-browsers
+
 jobs:
   build:
     executor:
       name: hmpps/node
-      tag: 14.15-browsers
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - run:
@@ -51,7 +55,7 @@ jobs:
   unit_test:
     executor:
       name: hmpps/node
-      tag: 14.15-browsers
+      tag: << pipeline.parameters.node-version >>
     steps:
       - checkout
       - restore_cache:
@@ -79,18 +83,10 @@ workflows:
           name: helm_lint
       - hmpps/build_docker:
           name: build_docker
-          filters:
-            branches:
-              only:
-                - main
       - hmpps/deploy_env:
           name: deploy_dev
           env: "dev"
           context: hmpps-common-vars
-          filters:
-            branches:
-              only:
-                - main
           requires:
             - helm_lint
             - unit_test
@@ -106,6 +102,10 @@ workflows:
                 - main
     jobs:
       - hmpps/npm_security_audit:
+          slack_channel: << pipeline.parameters.alerts-slack-channel >>
+          context:
+            - hmpps-common-vars
+      - hmpps/trivy_latest_scan:
           slack_channel: << pipeline.parameters.alerts-slack-channel >>
           context:
             - hmpps-common-vars
