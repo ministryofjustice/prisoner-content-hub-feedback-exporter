@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  hmpps: ministryofjustice/hmpps@3.5
+  hmpps: ministryofjustice/hmpps@3.6.1
   slack: circleci/slack@4.4.2
 
 parameters:
@@ -85,17 +85,46 @@ workflows:
           name: build_docker
       - hmpps/deploy_env:
           name: deploy_dev
-          env: "dev"
+          env: 'dev'
           context: hmpps-common-vars
           requires:
             - helm_lint
             - unit_test
             - build_docker
 
+      - request-staging-approval:
+          type: approval
+          filters:
+            branches:
+              only:
+                - main
+      - hmpps/deploy_env:
+          name: deploy_staging
+          env: 'staging'
+          context:
+            - prisoner-content-hub-feedback-exporter-preprod
+            - hmpps-common-vars
+          requires:
+            - request-staging-approval
+      - request-prod-approval:
+          type: approval
+          requires:
+            - deploy_staging
+      - hmpps/deploy_env:
+          name: deploy_prod
+          env: 'prod'
+          slack_notification: true
+          slack_channel_name: hub_releases
+          context:
+            - prisoner-content-hub-feedback-exporter-prod
+            - hmpps-common-vars
+          requires:
+            - request-prod-approval
+
   security:
     triggers:
       - schedule:
-          cron: "0 7 * * 1-5"
+          cron: '0 7 * * 1-5'
           filters:
             branches:
               only:
