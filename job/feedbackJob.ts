@@ -9,9 +9,8 @@ class FeedbackJob {
   ) {}
 
   async run(today = new Date()): Promise<void> {
-    const startDate = format(subDays(today, 1), 'yyyy-MM-dd')
-    const endDate = format(subDays(today, 1), 'yyyy-MM-dd')
-    const feedback = await this.feedbackRetriever.retrieve(startDate, endDate)
+    const date = format(subDays(today, 1), 'yyyy-MM-dd')
+    const feedback = await this.feedbackRetriever.retrieve(date, date)
     await this.feedbackUploader.upload(feedback)
   }
 }
