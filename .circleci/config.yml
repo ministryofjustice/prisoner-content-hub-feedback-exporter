@@ -92,12 +92,6 @@ workflows:
             - unit_test
             - build_docker
 
-      - request-staging-approval:
-          type: approval
-          filters:
-            branches:
-              only:
-                - main
       - hmpps/deploy_env:
           name: deploy_staging
           env: 'staging'
@@ -105,7 +99,13 @@ workflows:
             - prisoner-content-hub-feedback-exporter-preprod
             - hmpps-common-vars
           requires:
-            - request-staging-approval
+            - helm_lint
+            - unit_test
+            - build_docker
+          filters:
+            branches:
+              only:
+                - main
       - request-prod-approval:
           type: approval
           requires:
