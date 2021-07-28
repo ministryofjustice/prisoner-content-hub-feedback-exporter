@@ -34,4 +34,7 @@ const run = async () => {
   logger.info('Upload complete')
 }
 
-run().catch(e => logger.error('Problem running job', e))
+run().catch(e => {
+  process.exitCode = 1
+  logger.error('Problem running job', e)
+})
