@@ -65,7 +65,7 @@
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{json}": [
+    "*.json": [
       "prettier --write"
     ]
   },
@@ -73,34 +73,34 @@
     "axios": "^0.21.1",
     "bunyan": "^1.8.15",
     "bunyan-format": "^0.2.1",
-    "date-fns": "^2.22.1",
+    "date-fns": "^2.23.0",
     "dotenv": "^10.0.0",
     "elastic-builder": "^2.16.0",
-    "googleapis": "^78.0.0"
+    "googleapis": "^84.0.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
-    "@types/bunyan": "^1.8.6",
-    "@types/bunyan-format": "^0.2.3",
-    "@types/jest": "^26.0.23",
+    "@types/bunyan": "^1.8.7",
+    "@types/bunyan-format": "^0.2.4",
+    "@types/jest": "^27.0.1",
     "@types/node": "^14.17.3",
-    "@typescript-eslint/eslint-plugin": "^4.28.0",
-    "@typescript-eslint/parser": "^4.28.0",
-    "eslint": "^7.29.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-import": "2.24.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
-    "jest": "^27.0.5",
+    "husky": "^7.0.1",
+    "jest": "^27.0.6",
     "jest-html-reporter": "^3.4.1",
     "jest-junit": "^12.2.0",
-    "lint-staged": "^11.0.0",
-    "nock": "^13.1.0",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.3.1",
-    "ts-jest": "^27.0.3",
-    "typescript": "^4.3.4"
+    "lint-staged": "^11.1.2",
+    "nock": "^13.1.1",
+    "nodemon": "^2.0.12",
+    "prettier": "^2.3.2",
+    "ts-jest": "^27.0.4",
+    "typescript": "^4.3.5"
   }
 }
