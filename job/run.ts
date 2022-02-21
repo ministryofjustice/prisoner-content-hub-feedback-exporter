@@ -1,3 +1,4 @@
+import { notifyClient } from 'notifications-node-client'
 import { google } from 'googleapis'
 import logger from './utils/logger'
 import applicationVersion from './utils/applicationVersion'
@@ -7,6 +8,7 @@ import FeedbackRetriever from './feedbackRetriever'
 import FeedbackUploader from './feedbackUploader'
 import FeedbackJob from './feedbackJob'
 import HttpClient from './utils/httpClient'
+import FeedbackEmailSender from './feedbackEmailSender'
 
 const feedbackRetriever = new FeedbackRetriever(new HttpClient())
 
@@ -26,7 +28,9 @@ const auth = new google.auth.GoogleAuth({
 google.options({ auth })
 const feedbackUploader = new FeedbackUploader(google.sheets('v4'), config.sheetsClient.spreadsheetId)
 
-const feedbackJob = new FeedbackJob(feedbackRetriever, feedbackUploader)
+const feedbackEmailSender = new FeedbackEmailSender(notifyClient(config.govNotify.apiKey), [])
+
+const feedbackJob = new FeedbackJob(feedbackRetriever, feedbackUploader, feedbackEmailSender)
 
 const run = async () => {
   logger.info(`Running application: ${applicationVersion}`)

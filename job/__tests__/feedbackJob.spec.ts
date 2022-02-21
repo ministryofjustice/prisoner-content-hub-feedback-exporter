@@ -1,5 +1,5 @@
 import FeedbackJob from '../feedbackJob'
-import FeedbackRetriever from '../feedbackRetriever'
+import FeedbackRetriever, { FeedbackItem } from '../feedbackRetriever'
 import FeedbackUploader from '../feedbackUploader'
 
 jest.mock('../feedbackRetriever')
@@ -11,7 +11,7 @@ describe('feedback retriever', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
-    feedbackJob = new FeedbackJob(feedbackRetriever, feedbackUploader)
+    feedbackJob = new FeedbackJob(feedbackRetriever, feedbackUploader, null)
   })
 
   describe('run', () => {
@@ -26,7 +26,7 @@ describe('feedback retriever', () => {
     })
 
     it('should pass the results of the retriever to the upload', async () => {
-      feedbackRetriever.retrieve.mockResolvedValue([['cell1']])
+      feedbackRetriever.retrieve.mockResolvedValue([['cell1'] as unknown as FeedbackItem])
       await feedbackJob.run(new Date('22 Feb 2021 00:00:00 GMT'))
       expect(feedbackUploader.upload).toHaveBeenCalledWith([['cell1']])
     })
