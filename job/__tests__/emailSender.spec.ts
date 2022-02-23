@@ -78,13 +78,13 @@ describe('feedback sender', () => {
     await emailSender.send(feedbackData)
 
     expect(notifyClient.sendEmail).toHaveBeenCalledWith('6a865bb8-5452-4314-9e54-b4d844d6e747', 'dt@test.com', {
-      personalisation: { date: '2022-02-23', establishment: 'Wayland', first_name: 'David', link_to_file: 'link-1' },
+      personalisation: { date: '2022-02-23', establishment: 'Wayland', name: 'David', link_to_file: 'link-1' },
     })
     expect(notifyClient.sendEmail).toHaveBeenCalledWith('6a865bb8-5452-4314-9e54-b4d844d6e747', 'al@test.com', {
-      personalisation: { date: '2022-02-23', establishment: 'Wayland', first_name: 'Andy', link_to_file: 'link-1' },
+      personalisation: { date: '2022-02-23', establishment: 'Wayland', name: 'Andy', link_to_file: 'link-1' },
     })
     expect(notifyClient.sendEmail).toHaveBeenCalledWith('6a865bb8-5452-4314-9e54-b4d844d6e747', 'jh@test.com', {
-      personalisation: { date: '2022-02-23', establishment: 'Cookham Wood', first_name: 'Jon', link_to_file: 'link-2' },
+      personalisation: { date: '2022-02-23', establishment: 'Cookham Wood', name: 'Jon', link_to_file: 'link-2' },
     })
   })
 })

@@ -20,8 +20,28 @@ Connect to elastic search via port-forward:
 
 `kubectl port-forward <proxy-pod-name> 9200:9200`
 
+ensure the following env vars are set in `.env`:
+```
+  SERVICE_ACCOUNT_KEY=some-value
+  SPREADSHEET_ID=some-value
+  GOV_NOTIFY_API_KEY=some-value
+  CONTACTS=some-value
+```
 
+Contacts is a json string of the following structure:
+```json
+[
+    { 
+        "name": "username",
+        "establishment": "WAYLAND",
+        "email": "test@user.com"
+    }
+]
+```
 
+(Establishment must match the (uppercase) drupal id for the establishment)
+
+Then run:
 `npm run build && npm start`
 
 ### Runing the app for development

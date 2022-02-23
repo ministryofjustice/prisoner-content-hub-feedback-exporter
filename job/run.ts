@@ -1,4 +1,4 @@
-import { notifyClient } from 'notifications-node-client'
+import { NotifyClient } from 'notifications-node-client'
 import { google } from 'googleapis'
 import logger from './utils/logger'
 import applicationVersion from './utils/applicationVersion'
@@ -12,30 +12,21 @@ import EmailSender from './emailSender'
 
 const feedbackRetriever = new FeedbackRetriever(new HttpClient())
 
-const getCredentials = () => {
-  try {
-    return JSON.parse(config.sheetsClient.serviceAccountKey)
-  } catch (e) {
-    // Deliberately obfuscate actual error as may contain creds/key
-    throw new Error('An error occurred parsing creds')
-  }
-}
-
 const auth = new google.auth.GoogleAuth({
-  credentials: getCredentials(),
+  credentials: config.sheetsClient.serviceAccountKey,
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 google.options({ auth })
 const sheetsUploader = new SheetsUploader(google.sheets('v4'), config.sheetsClient.spreadsheetId)
 
-const emailSender = new EmailSender(notifyClient(config.govNotify.apiKey), [])
+const emailSender = new EmailSender(new NotifyClient(config.notify.apiKey), config.notify.contacts)
 
 const feedbackJob = new FeedbackJob(feedbackRetriever, sheetsUploader, emailSender)
 
 const run = async () => {
   logger.info(`Running application: ${applicationVersion}`)
   await feedbackJob.run()
-  logger.info('Upload complete')
+  logger.info('Job complete')
 }
 
 run().catch(e => {

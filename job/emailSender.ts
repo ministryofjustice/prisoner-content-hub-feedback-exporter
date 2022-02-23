@@ -11,11 +11,10 @@ export default class EmailSender {
     const establishmentToFeedback = groupBy(feedback, f => f.establishment)
     const establishmentToContacts = Array.from(groupBy(this.contentManagers, c => c.establishment))
 
-    const emailRequests = establishmentToContacts.map(async ([establishment, contacts]) => {
-      const link = await this.uploadFileContent(establishmentToFeedback.get(establishment))
-      contacts.forEach(contact => {
-        this.sendEmail(contact, date, link)
-      })
+    const emailRequests = establishmentToContacts.flatMap(async ([establishment, contacts]) => {
+      const link = await this.uploadFileContent(establishmentToFeedback.get(establishment) || [])
+      const requests = contacts.map(contact => this.sendEmail(contact, date, link))
+      return Promise.all(requests)
     })
 
     await Promise.all(emailRequests)
@@ -23,22 +22,25 @@ export default class EmailSender {
     logger.info(`Finished sending ${emailRequests.length} emails`)
   }
 
-  private uploadFileContent = async (items: FeedbackItem[]) => {
-    const contents = items.map(f => f.row.join(',')).join('\n')
+  private async uploadFileContent(items: FeedbackItem[]) {
+    const csv = items.map(f => f.row.join(',')).join('\n')
+    const contents = items.length ? csv : 'No feedback for this establishment and timeframe\n'
     return this.notifyApi.prepareUpload(Buffer.from(contents), true)
   }
 
-  private sendEmail = async (contact: Contact, date: string, link: string) => {
-    this.notifyApi
-      .sendEmail(config.govNotify.templateId, contact.email, {
+  private async sendEmail(contact: Contact, date: string, link: string) {
+    try {
+      await this.notifyApi.sendEmail(config.notify.templateId, contact.email, {
         personalisation: {
-          first_name: contact.name,
+          name: contact.name,
           date,
           establishment: contact.establishment,
           link_to_file: link,
         },
       })
-      .then(() => logger.info(`Successfully sent feedback email for ${contact.email}`))
-      .catch((err: any) => logger.error(err.response.data.errors))
+      logger.info(`Successfully sent feedback email for ${contact.email}`)
+    } catch (err: any) {
+      logger.error(err.response.data.errors)
+    }
   }
 }
