@@ -5,7 +5,6 @@ const {
   SERVICE_ACCOUNT_KEY: serviceAccountKey,
   SPREADSHEET_ID: spreadsheetId,
   GOV_NOTIFY_API_KEY: apiKey,
-  GOV_NOTIFY_TEMPLATE_ID: templateId,
 } = process.env
 
 export = {
@@ -17,7 +16,7 @@ export = {
     spreadsheetId,
   },
   govNotify: {
-    apiKey,
-    templateId,
+    apiKey: apiKey || 'some-test-key',
+    templateId: '6a865bb8-5452-4314-9e54-b4d844d6e747',
   },
 }

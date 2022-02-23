@@ -1,21 +1,19 @@
 import { format, subDays } from 'date-fns'
 import type FeedbackRetriever from './feedbackRetriever'
-import type FeedbackUploader from './feedbackUploader'
-import type FeedbackEmailSender from './feedbackEmailSender'
+import type SheetsUploader from './sheetsUploader'
+import type EmailSender from './emailSender'
 
-class FeedbackJob {
+export default class FeedbackJob {
   constructor(
     private readonly feedbackRetriever: FeedbackRetriever,
-    private readonly feedbackUploader: FeedbackUploader,
-    private readonly feedbackEmailSender: FeedbackEmailSender
+    private readonly sheetsUploader: SheetsUploader,
+    private readonly emailSender: EmailSender
   ) {}
 
   async run(today = new Date()): Promise<void> {
     const date = format(subDays(today, 1), 'yyyy-MM-dd')
     const feedback = await this.feedbackRetriever.retrieve(date, date)
-    await this.feedbackUploader.upload(feedback)
-    await this.feedbackEmailSender.upload(feedback)
+    await this.sheetsUploader.upload(feedback)
+    await this.emailSender.send(feedback)
   }
 }
-
-export default FeedbackJob

@@ -1,9 +1,10 @@
+import { FeedbackItem } from './types'
 import logger from './utils/logger'
 
-class FeedbackUploader {
+export default class SheetsUploader {
   constructor(private readonly sheetsApi: any, private readonly spreadsheetId: string) {}
 
-  async upload(rows: string[][]): Promise<void> {
+  async upload(rows: FeedbackItem[]): Promise<void> {
     const appendResult = await this.sheetsApi.spreadsheets.values.append({
       spreadsheetId: this.spreadsheetId,
       insertDataOption: 'INSERT_ROWS',
@@ -21,7 +22,7 @@ class FeedbackUploader {
         data: [
           {
             range: nextCell,
-            values: rows,
+            values: rows.map(r => r.row),
           },
         ],
         valueInputOption: 'RAW',
@@ -30,4 +31,3 @@ class FeedbackUploader {
     logger.info(result?.data?.responses || 'No response from sheets API')
   }
 }
-export default FeedbackUploader

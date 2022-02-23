@@ -5,10 +5,10 @@ import applicationVersion from './utils/applicationVersion'
 
 import config from './config'
 import FeedbackRetriever from './feedbackRetriever'
-import FeedbackUploader from './feedbackUploader'
+import SheetsUploader from './sheetsUploader'
 import FeedbackJob from './feedbackJob'
 import HttpClient from './utils/httpClient'
-import FeedbackEmailSender from './feedbackEmailSender'
+import EmailSender from './emailSender'
 
 const feedbackRetriever = new FeedbackRetriever(new HttpClient())
 
@@ -26,11 +26,11 @@ const auth = new google.auth.GoogleAuth({
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 })
 google.options({ auth })
-const feedbackUploader = new FeedbackUploader(google.sheets('v4'), config.sheetsClient.spreadsheetId)
+const sheetsUploader = new SheetsUploader(google.sheets('v4'), config.sheetsClient.spreadsheetId)
 
-const feedbackEmailSender = new FeedbackEmailSender(notifyClient(config.govNotify.apiKey), [])
+const emailSender = new EmailSender(notifyClient(config.govNotify.apiKey), [])
 
-const feedbackJob = new FeedbackJob(feedbackRetriever, feedbackUploader, feedbackEmailSender)
+const feedbackJob = new FeedbackJob(feedbackRetriever, sheetsUploader, emailSender)
 
 const run = async () => {
   logger.info(`Running application: ${applicationVersion}`)
