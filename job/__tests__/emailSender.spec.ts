@@ -1,7 +1,7 @@
 import EmailSender from '../emailSender'
 import { FeedbackItem } from '../types'
 
-describe('feedback sender', () => {
+describe('email sender', () => {
   let emailSender: EmailSender
   const notifyClient = {
     sendEmail: jest.fn(),
@@ -59,7 +59,11 @@ describe('feedback sender', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
-    emailSender = new EmailSender(notifyClient, contentManagers)
+    emailSender = new EmailSender(
+      notifyClient,
+      async () => contentManagers,
+      () => new Date(2022, 1, 23)
+    )
   })
 
   it('should prepare files', async () => {

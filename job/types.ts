@@ -31,6 +31,14 @@ export class FeedbackItem {
       this.series,
     ]
   }
+
+  formattedRow() {
+    return this.row
+      .map(cell => `"${cell}"`)
+      .join(',')
+      .replaceAll(undefined, '')
+      .replace(/\n/g, '')
+  }
 }
 
 export type Contact = { name: string; establishment: string; email: string }

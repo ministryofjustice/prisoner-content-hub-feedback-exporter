@@ -25,18 +25,11 @@ ensure the following env vars are set in `.env`:
   SERVICE_ACCOUNT_KEY=some-value
   SPREADSHEET_ID=some-value
   GOV_NOTIFY_API_KEY=some-value
-  CONTACTS=some-value
 ```
 
-Contacts is a json string of the following structure:
-```json
-[
-    { 
-        "name": "username",
-        "establishment": "WAYLAND",
-        "email": "test@user.com"
-    }
-]
+also to test the gov notify email functionality locally, ensure the following env var is set:
+```
+  NOTIFICATION_DAY=current-day-value
 ```
 
 (Establishment must match the (uppercase) drupal id for the establishment)

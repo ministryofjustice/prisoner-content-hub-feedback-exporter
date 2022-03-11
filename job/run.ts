@@ -9,6 +9,7 @@ import SheetsUploader from './sheetsUploader'
 import FeedbackJob from './feedbackJob'
 import HttpClient from './utils/httpClient'
 import EmailSender from './emailSender'
+import ContactsDownloader from './contactsDownloader'
 
 const feedbackRetriever = new FeedbackRetriever(new HttpClient())
 
@@ -19,7 +20,9 @@ const auth = new google.auth.GoogleAuth({
 google.options({ auth })
 const sheetsUploader = new SheetsUploader(google.sheets('v4'), config.sheetsClient.spreadsheetId)
 
-const emailSender = new EmailSender(new NotifyClient(config.notify.apiKey), config.notify.contacts)
+const contactsDownloader = new ContactsDownloader(google.sheets('v4'), config.sheetsClient.spreadsheetId)
+
+const emailSender = new EmailSender(new NotifyClient(config.notify.apiKey), () => contactsDownloader.download())
 
 const feedbackJob = new FeedbackJob(feedbackRetriever, sheetsUploader, emailSender)
 

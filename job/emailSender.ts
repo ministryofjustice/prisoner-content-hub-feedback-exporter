@@ -4,12 +4,17 @@ import config from './config'
 import { logger, groupBy } from './utils'
 
 export default class EmailSender {
-  constructor(private readonly notifyApi: any, private readonly contentManagers: Contact[]) {}
+  constructor(
+    private readonly notifyApi: any,
+    private readonly contactProvider: () => Promise<Contact[]>,
+    private readonly dateProvider: () => Date = () => new Date()
+  ) {}
 
   async send(feedback: FeedbackItem[]): Promise<void> {
-    const date = format(new Date(), 'yyyy-MM-dd')
+    const date = format(this.dateProvider(), 'yyyy-MM-dd')
+    const contentManagers = await this.contactProvider()
     const establishmentToFeedback = groupBy(feedback, f => f.establishment)
-    const establishmentToContacts = Array.from(groupBy(this.contentManagers, c => c.establishment))
+    const establishmentToContacts = Array.from(groupBy(contentManagers, c => c.establishment))
 
     const emailRequests = establishmentToContacts.flatMap(async ([establishment, contacts]) => {
       const link = await this.uploadFileContent(establishmentToFeedback.get(establishment) || [])
@@ -23,7 +28,8 @@ export default class EmailSender {
   }
 
   private async uploadFileContent(items: FeedbackItem[]) {
-    const csv = items.map(f => f.row.join(',')).join('\n')
+    const csv = items.map(f => f.formattedRow()).join('\n')
+
     const contents = items.length ? csv : 'No feedback for this establishment and timeframe\n'
     return this.notifyApi.prepareUpload(Buffer.from(contents), true)
   }

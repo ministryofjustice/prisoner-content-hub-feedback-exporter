@@ -5,7 +5,8 @@ const {
   SERVICE_ACCOUNT_KEY: serviceAccountKey,
   SPREADSHEET_ID: spreadsheetId,
   GOV_NOTIFY_API_KEY: apiKey,
-  CONTACTS: contacts,
+  NOTIFICATION_DAY: notificationDay,
+  NOTIFICATION_RANGE: notificationRange,
 } = process.env
 
 const parse = (type: string, value: string) => {
@@ -28,6 +29,9 @@ export = {
   notify: {
     apiKey: apiKey || 'some-test-key',
     templateId: '6a865bb8-5452-4314-9e54-b4d844d6e747',
-    contacts: contacts ? parse('contacts', contacts) : [],
+  },
+  notificationSchedule: {
+    day: parseInt(notificationDay, 10) || 1,
+    range: parseInt(notificationRange, 10) || 7,
   },
 }

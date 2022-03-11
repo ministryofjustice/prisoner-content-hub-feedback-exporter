@@ -29,10 +29,4 @@ env:
             key: GOV_NOTIFY_API_KEY
             optional: true
 
-    - name: CONTACTS
-      valueFrom:
-        secretKeyRef:
-            name: {{ include "app.name" . }}
-            key: CONTACTS
-            optional: true
 {{- end -}}
