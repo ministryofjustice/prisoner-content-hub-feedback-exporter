@@ -23,7 +23,7 @@ export = {
     feedback: `${elasticsearchEndpoint}/prod-feedback/_search`,
   },
   sheetsClient: {
-    serviceAccountKey: parse('creds', serviceAccountKey),
+    serviceAccountKey: parse('creds', serviceAccountKey || '{}'),
     spreadsheetId,
   },
   notify: {

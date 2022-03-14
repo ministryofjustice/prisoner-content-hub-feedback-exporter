@@ -34,9 +34,8 @@ export class FeedbackItem {
 
   formattedRow() {
     return this.row
-      .map(cell => `"${cell}"`)
+      .map(cell => `"${cell || ''}"`)
       .join(',')
-      .replaceAll(undefined, '')
       .replace(/\n/g, '')
   }
 }
