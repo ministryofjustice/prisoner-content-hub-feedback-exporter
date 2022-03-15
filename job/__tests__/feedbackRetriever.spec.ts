@@ -1,3 +1,4 @@
+import { FeedbackItem } from '../types'
 import FeedbackRetriever from '../feedbackRetriever'
 import StandardClient from '../utils/httpClient'
 
@@ -64,7 +65,16 @@ describe('feedback retriever', () => {
       const response = await feedbackRetriever.retrieve('2021-06-03', '2021-06-06')
 
       expect(response).toStrictEqual([
-        ['2021-06-03', 'Park run', 'Article', 'Like', 'Love it', 'kj453eeeafjlkj5wf44n', 'Wayland', 'Exercise'],
+        new FeedbackItem({
+          date: '2021-06-03',
+          title: 'Park run',
+          contentType: 'Article',
+          sentiment: 'Like',
+          comment: 'Love it',
+          sessionId: 'kj453eeeafjlkj5wf44n',
+          establishment: 'Wayland',
+          series: 'Exercise',
+        }),
       ])
     })
 
@@ -93,7 +103,19 @@ describe('feedback retriever', () => {
       const response = await feedbackRetriever.retrieve('2021-06-03', '2021-06-06')
 
       expect(response).toStrictEqual([
-        ['2021-06-03', 'Park run', 'Article', 'Like', 'Love it', 'kj453eeeafjlkj5wf44n', 'Wayland', 'Exercise'],
+        new FeedbackItem({
+          Field1: 'fsjhf',
+          date: '2021-06-03',
+          title: 'Park run',
+          contentType: 'Article',
+          sentiment: 'Like',
+          Field2: 'fsjhf',
+          comment: 'Love it',
+          sessionId: 'kj453eeeafjlkj5wf44n',
+          establishment: 'Wayland',
+          series: 'Exercise',
+          Field3: 'fsjhf',
+        }),
       ])
     })
 
@@ -116,7 +138,13 @@ describe('feedback retriever', () => {
       const response = await feedbackRetriever.retrieve('2021-06-03', '2021-06-06')
 
       expect(response).toStrictEqual([
-        [undefined, 'Park run', 'Article', undefined, 'Love it', 'kj453eeeafjlkj5wf44n', 'Wayland', undefined],
+        new FeedbackItem({
+          title: 'Park run',
+          contentType: 'Article',
+          comment: 'Love it',
+          sessionId: 'kj453eeeafjlkj5wf44n',
+          establishment: 'Wayland',
+        }),
       ])
     })
   })

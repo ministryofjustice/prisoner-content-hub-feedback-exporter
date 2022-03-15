@@ -1,18 +1,14 @@
 import esb from 'elastic-builder'
 import config from './config'
+import { FeedbackItem } from './types'
 import type HttpClient from './utils/httpClient'
 
-const columnNames = ['date', 'title', 'contentType', 'sentiment', 'comment', 'sessionId', 'establishment', 'series']
-
-function toLine(result: any): string[] {
-  // eslint-disable-next-line no-underscore-dangle
-  return columnNames.map(columnName => result._source[columnName])
-}
+type Hit = { _source: Record<string, string> }
 
 class FeedbackRetriever {
   constructor(private readonly httpClient: HttpClient) {}
 
-  async retrieve(startDate: string, endDate: string): Promise<string[][]> {
+  async retrieve(startDate: string, endDate: string): Promise<FeedbackItem[]> {
     const esbRequest = esb
       .requestBodySearch()
       .query(esb.boolQuery().filter([esb.rangeQuery('date').gte(startDate).lte(endDate)]))
@@ -20,8 +16,9 @@ class FeedbackRetriever {
       .sort(esb.sort('date', 'desc'))
       .toJSON()
     const response = await this.httpClient.post(config.elasticsearch.feedback, esbRequest)
-    const results = response?.hits?.hits || []
-    return results.map(toLine)
+    const results: Hit[] = response?.hits?.hits || []
+
+    return results.map(({ _source: source }) => new FeedbackItem(source))
   }
 }
 

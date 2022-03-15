@@ -21,4 +21,12 @@ env:
         secretKeyRef:
             name: {{ include "app.name" . }}
             key: ELASTICSEARCH_ENDPOINT
+
+    - name: GOV_NOTIFY_API_KEY
+      valueFrom:
+        secretKeyRef:
+            name: {{ include "app.name" . }}
+            key: GOV_NOTIFY_API_KEY
+            optional: true
+
 {{- end -}}
