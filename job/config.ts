@@ -31,7 +31,7 @@ export = {
     templateId: '6a865bb8-5452-4314-9e54-b4d844d6e747',
   },
   notificationSchedule: {
-    day: parseInt(notificationDay, 10) || 3,
+    day: parseInt(notificationDay, 10) || 4,
     range: parseInt(notificationRange, 10) || 7,
   },
 }
