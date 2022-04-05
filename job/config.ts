@@ -32,6 +32,6 @@ export = {
   },
   notificationSchedule: {
     day: parseInt(notificationDay, 10) || 1,
-    range: parseInt(notificationRange, 10) || 10,
+    range: parseInt(notificationRange, 10) || 7,
   },
 }
