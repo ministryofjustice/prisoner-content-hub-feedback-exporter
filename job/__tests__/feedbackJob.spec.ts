@@ -35,21 +35,21 @@ describe('feedback retriever', () => {
     })
 
     it('should pass the results of the retriever to the sheets uploader', async () => {
-      const feedbackItem = new FeedbackItem({})
+      const feedbackItem = new FeedbackItem('', {})
       feedbackRetriever.retrieve.mockResolvedValue([feedbackItem])
       await feedbackJob.run(new Date('22 Feb 2021 00:00:00 GMT'))
       expect(sheetsUploader.upload).toHaveBeenCalledWith([feedbackItem])
     })
 
     it('should not send results of the retriever to the email sender', async () => {
-      const feedbackItem = new FeedbackItem({})
+      const feedbackItem = new FeedbackItem('', {})
       feedbackRetriever.retrieve.mockResolvedValue([feedbackItem])
       await feedbackJob.run(new Date('22 Feb 2021 00:00:00 GMT'))
       expect(emailSender.send).not.toBeCalled()
     })
 
     it('should pass the results of the retriever to the email sender', async () => {
-      const feedbackItem = new FeedbackItem({})
+      const feedbackItem = new FeedbackItem('', {})
       feedbackRetriever.retrieve.mockResolvedValue([feedbackItem])
       await feedbackJob.run(new Date('21 Feb 2021 00:00:00 GMT'))
       expect(emailSender.send).toHaveBeenCalledWith([feedbackItem])

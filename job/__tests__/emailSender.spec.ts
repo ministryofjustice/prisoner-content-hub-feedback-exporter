@@ -14,8 +14,10 @@ describe('email sender', () => {
     { name: 'Jon', establishment: 'Cookham Wood', email: 'jh@test.com' },
   ]
 
+  const contentManagerRetriever = jest.fn()
+
   const feedbackData = [
-    new FeedbackItem({
+    new FeedbackItem('dsfaljlfjs-hjjrturu-opareeh', {
       date: '2021-10-05T09:12:37.469Z',
       title: 'Yoga',
       contentType: 'Video',
@@ -24,8 +26,9 @@ describe('email sender', () => {
       sessionId: '7dfeca06-2af7-4050-b1e0-c52954703807',
       establishment: 'Wayland',
       series: 'Exercise',
+      categories: 'Workout',
     }),
-    new FeedbackItem({
+    new FeedbackItem('dsfaljlfjs-jhkhkjjh-opareeh', {
       date: '2021-10-05T09:12:37.469Z',
       title: 'Yoga',
       contentType: 'Video',
@@ -34,8 +37,9 @@ describe('email sender', () => {
       sessionId: '7dfeca06-2af7-4050-b1e0-c52954703807',
       establishment: 'Wayland',
       series: 'Exercise',
+      categories: 'Workout',
     }),
-    new FeedbackItem({
+    new FeedbackItem('dsfaljlfjs-hjjrturu-eryur5', {
       date: '2021-10-05T09:12:37.469Z',
       title: 'NPR Listen Live',
       contentType: 'audio',
@@ -44,8 +48,9 @@ describe('email sender', () => {
       sessionId: '7dfeca06-2af7-4050-b1e0-c52954703807',
       establishment: 'Cookham Wood',
       series: 'NPR',
+      categories: 'Music',
     }),
-    new FeedbackItem({
+    new FeedbackItem('dsfaljlfjs-hjjrturu-qapvl56', {
       date: '2021-10-05T09:12:37.469Z',
       title: 'PSO/PSI',
       contentType: 'pdf',
@@ -54,19 +59,17 @@ describe('email sender', () => {
       sessionId: '7dfeca06-2af7-4050-b1e0-c52954703807',
       establishment: 'Wayland',
       series: 'PSO',
+      categories: 'Policy',
     }),
   ]
 
   beforeEach(() => {
     jest.resetAllMocks()
-    emailSender = new EmailSender(
-      notifyClient,
-      async () => contentManagers,
-      () => new Date(2022, 1, 23)
-    )
+    emailSender = new EmailSender(notifyClient, contentManagerRetriever, () => new Date(2022, 1, 23))
   })
 
   it('should prepare files', async () => {
+    contentManagerRetriever.mockResolvedValue(contentManagers)
     notifyClient.prepareUpload.mockResolvedValueOnce('link-1').mockResolvedValueOnce('link-2')
     notifyClient.sendEmail.mockResolvedValue({})
 
@@ -75,7 +78,22 @@ describe('email sender', () => {
     expect(notifyClient.prepareUpload).toHaveBeenCalledTimes(2)
   })
 
+  it('should upload CSVs', async () => {
+    contentManagerRetriever.mockResolvedValue([{ name: 'David', establishment: 'Wayland', email: 'dt@test.com' }])
+    notifyClient.prepareUpload.mockResolvedValueOnce('link-1')
+    notifyClient.sendEmail.mockResolvedValue({})
+
+    await emailSender.send(feedbackData)
+
+    expect(notifyClient.prepareUpload.mock.calls[0][0].toString())
+      .toStrictEqual(`Date, Title, Content Type, Sentiment, Comment, Session Id, Establishment, Series, Categories, Feedback Id
+"2021-10-05T09:12:37.469Z","Yoga","Video","LIKE","can we have more national radio stations made available.","7dfeca06-2af7-4050-b1e0-c52954703807","Wayland","Exercise","Workout","dsfaljlfjs-hjjrturu-opareeh"
+"2021-10-05T09:12:37.469Z","Yoga","Video","LIKE","can we have more national radio stations made available.","7dfeca06-2af7-4050-b1e0-c52954703807","Wayland","Exercise","Workout","dsfaljlfjs-jhkhkjjh-opareeh"
+"2021-10-05T09:12:37.469Z","PSO/PSI","pdf","LIKE","can we have more national radio stations made available.","7dfeca06-2af7-4050-b1e0-c52954703807","Wayland","PSO","Policy","dsfaljlfjs-hjjrturu-qapvl56"`)
+  })
+
   it('should send to gov notify', async () => {
+    contentManagerRetriever.mockResolvedValue(contentManagers)
     notifyClient.prepareUpload.mockResolvedValueOnce('link-1').mockResolvedValueOnce('link-2')
     notifyClient.sendEmail.mockResolvedValue({})
 

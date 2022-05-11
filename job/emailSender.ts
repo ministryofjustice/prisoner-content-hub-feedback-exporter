@@ -28,7 +28,8 @@ export default class EmailSender {
   }
 
   private async uploadFileContent(items: FeedbackItem[]) {
-    const csv = items.map(f => f.formattedRow()).join('\n')
+    const feedbackHeader = FeedbackItem.getFeedbackHeader().join(', ')
+    const csv = `${feedbackHeader}\n${items.map(f => f.formattedRow()).join('\n')}`
 
     const contents = items.length ? csv : 'No feedback for this establishment and timeframe\n'
     return this.notifyApi.prepareUpload(Buffer.from(contents), true)
