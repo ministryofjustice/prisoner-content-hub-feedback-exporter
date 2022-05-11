@@ -1,5 +1,4 @@
 /* eslint-disable lines-between-class-members */
-
 export class FeedbackItem {
   public readonly date: string
   public readonly title: string
@@ -9,9 +8,26 @@ export class FeedbackItem {
   public readonly sessionId: string
   public readonly establishment: string
   public readonly series: string
+  public readonly feedbackId: string
+  public readonly categories: string
   public readonly row: string[]
 
-  constructor(row: Record<string, string>) {
+  public static getFeedbackHeader() {
+    return [
+      'Date',
+      'Title',
+      'Content Type',
+      'Sentiment',
+      'Comment',
+      'Session Id',
+      'Establishment',
+      'Series',
+      'Categories',
+      'Feedback Id',
+    ]
+  }
+
+  constructor(feedbackId: string, row: Record<string, string>) {
     this.date = row.date
     this.title = row.title
     this.contentType = row.contentType
@@ -20,6 +36,8 @@ export class FeedbackItem {
     this.sessionId = row.sessionId
     this.establishment = row.establishment
     this.series = row.series
+    this.categories = row.categories
+    this.feedbackId = feedbackId
     this.row = [
       this.date,
       this.title,
@@ -29,6 +47,8 @@ export class FeedbackItem {
       this.sessionId,
       this.establishment,
       this.series,
+      this.categories,
+      this.feedbackId,
     ]
   }
 

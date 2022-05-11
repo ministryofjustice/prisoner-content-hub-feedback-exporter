@@ -1,7 +1,7 @@
 import { FeedbackItem } from '../types'
 import SheetsUploader from '../sheetsUploader'
 
-const FEEDBACK_ITEM = new FeedbackItem({
+const FEEDBACK_ITEM = new FeedbackItem('djhshf-dhfjhadfh-ojgjgt', {
   Field1: 'fsjhf',
   date: '2021-06-03',
   title: 'Park run',
@@ -12,6 +12,7 @@ const FEEDBACK_ITEM = new FeedbackItem({
   sessionId: 'kj453eeeafjlkj5wf44n',
   establishment: 'Wayland',
   series: 'Exercise',
+  categories: 'Workout',
   Field3: 'fsjhf',
 })
 

@@ -48,6 +48,7 @@ describe('feedback retriever', () => {
         hits: {
           hits: [
             {
+              _id: '2b1e137e-fe2d-4972-a864-afkjlflgj567',
               _source: {
                 date: '2021-06-03',
                 title: 'Park run',
@@ -57,6 +58,7 @@ describe('feedback retriever', () => {
                 sessionId: 'kj453eeeafjlkj5wf44n',
                 establishment: 'Wayland',
                 series: 'Exercise',
+                categories: 'Workout',
               },
             },
           ],
@@ -65,7 +67,7 @@ describe('feedback retriever', () => {
       const response = await feedbackRetriever.retrieve('2021-06-03', '2021-06-06')
 
       expect(response).toStrictEqual([
-        new FeedbackItem({
+        new FeedbackItem('2b1e137e-fe2d-4972-a864-afkjlflgj567', {
           date: '2021-06-03',
           title: 'Park run',
           contentType: 'Article',
@@ -74,6 +76,7 @@ describe('feedback retriever', () => {
           sessionId: 'kj453eeeafjlkj5wf44n',
           establishment: 'Wayland',
           series: 'Exercise',
+          categories: 'Workout',
         }),
       ])
     })
@@ -83,6 +86,7 @@ describe('feedback retriever', () => {
         hits: {
           hits: [
             {
+              _id: '2b1e137e-fe2d-4972-a864-kh231hhkkh667',
               _source: {
                 Field1: 'fsjhf',
                 date: '2021-06-03',
@@ -94,6 +98,7 @@ describe('feedback retriever', () => {
                 sessionId: 'kj453eeeafjlkj5wf44n',
                 establishment: 'Wayland',
                 series: 'Exercise',
+                categories: 'Workout',
                 Field3: 'fsjhf',
               },
             },
@@ -103,7 +108,7 @@ describe('feedback retriever', () => {
       const response = await feedbackRetriever.retrieve('2021-06-03', '2021-06-06')
 
       expect(response).toStrictEqual([
-        new FeedbackItem({
+        new FeedbackItem('2b1e137e-fe2d-4972-a864-kh231hhkkh667', {
           Field1: 'fsjhf',
           date: '2021-06-03',
           title: 'Park run',
@@ -114,6 +119,7 @@ describe('feedback retriever', () => {
           sessionId: 'kj453eeeafjlkj5wf44n',
           establishment: 'Wayland',
           series: 'Exercise',
+          categories: 'Workout',
           Field3: 'fsjhf',
         }),
       ])
@@ -124,6 +130,7 @@ describe('feedback retriever', () => {
         hits: {
           hits: [
             {
+              _id: '2b1e137e-fe2d-4972-a864-18dgdgh456',
               _source: {
                 title: 'Park run',
                 contentType: 'Article',
@@ -138,7 +145,7 @@ describe('feedback retriever', () => {
       const response = await feedbackRetriever.retrieve('2021-06-03', '2021-06-06')
 
       expect(response).toStrictEqual([
-        new FeedbackItem({
+        new FeedbackItem('2b1e137e-fe2d-4972-a864-18dgdgh456', {
           title: 'Park run',
           contentType: 'Article',
           comment: 'Love it',
