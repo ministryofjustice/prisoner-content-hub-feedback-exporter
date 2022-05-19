@@ -1,4 +1,6 @@
 /* eslint-disable lines-between-class-members */
+import flattenArrays from './utils/flattenArrays'
+
 export class FeedbackItem {
   public readonly date: string
   public readonly title: string
@@ -27,16 +29,17 @@ export class FeedbackItem {
     ]
   }
 
-  constructor(feedbackId: string, row: Record<string, string>) {
-    this.date = row.date
-    this.title = row.title
-    this.contentType = row.contentType
-    this.sentiment = row.sentiment
-    this.comment = row.comment
-    this.sessionId = row.sessionId
-    this.establishment = row.establishment
-    this.series = row.series
-    this.categories = row.categories
+  constructor(feedbackId: string, row: Record<string, string | string[]>) {
+    const flatRows = flattenArrays(row)
+    this.date = flatRows.date
+    this.title = flatRows.title
+    this.contentType = flatRows.contentType
+    this.sentiment = flatRows.sentiment
+    this.comment = flatRows.comment
+    this.sessionId = flatRows.sessionId
+    this.establishment = flatRows.establishment
+    this.series = flatRows.series
+    this.categories = flatRows.categories
     this.feedbackId = feedbackId
     this.row = [
       this.date,
