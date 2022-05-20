@@ -3,7 +3,7 @@ import config from './config'
 import { FeedbackItem } from './types'
 import type HttpClient from './utils/httpClient'
 
-type Hit = { _id: string; _source: Record<string, string> }
+type Hit = { _id: string; _source: Record<string, string | string[]> }
 
 class FeedbackRetriever {
   constructor(private readonly httpClient: HttpClient) {}
