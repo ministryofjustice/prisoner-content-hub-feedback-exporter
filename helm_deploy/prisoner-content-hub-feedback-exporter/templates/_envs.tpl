@@ -19,8 +19,8 @@ env:
     - name: ELASTICSEARCH_ENDPOINT
       valueFrom:
         secretKeyRef:
-            name: {{ include "app.name" . }}
-            key: ELASTICSEARCH_ENDPOINT
+            name: pfs-opensearch-proxy-url
+            key: proxy_url
 
     - name: GOV_NOTIFY_API_KEY
       valueFrom:
