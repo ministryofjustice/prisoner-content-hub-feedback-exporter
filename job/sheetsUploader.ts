@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FeedbackItem } from './types'
 import logger from './utils/logger'
 
 export default class SheetsUploader {
-  constructor(private readonly sheetsApi: any, private readonly spreadsheetId: string) {}
+  constructor(
+    private readonly sheetsApi: any,
+    private readonly spreadsheetId: string,
+  ) {}
 
   async upload(rows: FeedbackItem[]): Promise<void> {
     const appendResult = await this.sheetsApi.spreadsheets.values.append({

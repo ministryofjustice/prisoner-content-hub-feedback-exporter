@@ -15,7 +15,7 @@ describe('groupBy', () => {
         [2, ['bb', 'bb', 'bb', 'ab']],
         [3, ['aaa', 'ccc']],
         [4, ['dddd']],
-      ])
+      ]),
     )
   })
 })
