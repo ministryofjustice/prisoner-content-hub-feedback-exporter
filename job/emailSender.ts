@@ -5,9 +5,10 @@ import { logger, groupBy } from './utils'
 
 export default class EmailSender {
   constructor(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private readonly notifyApi: any,
     private readonly contactProvider: () => Promise<Contact[]>,
-    private readonly dateProvider: () => Date = () => new Date()
+    private readonly dateProvider: () => Date = () => new Date(),
   ) {}
 
   async send(feedback: FeedbackItem[]): Promise<void> {
@@ -46,6 +47,7 @@ export default class EmailSender {
         },
       })
       logger.info(`Successfully sent feedback email for ${contact.email}`)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       logger.error(err.response.data.errors)
     }

@@ -3,7 +3,6 @@ import FeedbackJob from '../feedbackJob'
 import FeedbackRetriever from '../feedbackRetriever'
 import SheetsUploader from '../sheetsUploader'
 import EmailSender from '../emailSender'
-import config from '../config'
 
 jest.mock('../feedbackRetriever')
 jest.mock('../sheetsUploader')

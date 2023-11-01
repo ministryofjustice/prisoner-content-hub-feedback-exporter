@@ -8,7 +8,7 @@ export default class FeedbackJob {
   constructor(
     private readonly feedbackRetriever: FeedbackRetriever,
     private readonly sheetsUploader: SheetsUploader,
-    private readonly emailSender: EmailSender
+    private readonly emailSender: EmailSender,
   ) {}
 
   async run(today = new Date()): Promise<void> {

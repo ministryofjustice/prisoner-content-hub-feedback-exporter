@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Contact } from './types'
 import logger from './utils/logger'
 
@@ -12,7 +13,10 @@ export const validate = (contacts: Contact[]): string[] => {
 }
 
 export default class ContactsDownloader {
-  constructor(private readonly sheetsApi: any, private readonly spreadsheetId: string) {}
+  constructor(
+    private readonly sheetsApi: any,
+    private readonly spreadsheetId: string,
+  ) {}
 
   async download(): Promise<Contact[]> {
     const result = await this.sheetsApi.spreadsheets.values.get({

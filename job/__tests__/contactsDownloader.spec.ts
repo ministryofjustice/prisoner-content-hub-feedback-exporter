@@ -79,7 +79,7 @@ describe('contacts downloader', () => {
         },
       })
       await expect(async () => contactsDownloader.download()).rejects.toStrictEqual(
-        new Error('Some contacts failed validation')
+        new Error('Some contacts failed validation'),
       )
     })
   })
