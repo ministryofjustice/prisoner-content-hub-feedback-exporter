@@ -2,7 +2,7 @@
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=dummy
 
-FROM node:20.9-bullseye-slim as base
+FROM node:20-bookworm-slim as base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
@@ -24,8 +24,6 @@ RUN apt-get update && \
 FROM base as build
 ARG BUILD_NUMBER
 ARG GIT_REF
-
-RUN apt-get install -y make python g++
 
 COPY package*.json ./
 RUN npm ci --no-audit
