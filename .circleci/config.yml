@@ -109,7 +109,7 @@ workflows:
           name: deploy_staging
           env: 'staging'
           context:
-            - prisoner-content-hub-feedback-exporter-preprod
+            - prisoner-content-hub-feedback-exporter-staging
             - hmpps-common-vars
           requires:
             - helm_lint
@@ -129,7 +129,7 @@ workflows:
           slack_notification: true
           slack_channel_name: hub_releases
           context:
-            - prisoner-content-hub-feedback-exporter-prod
+            - prisoner-content-hub-feedback-exporter-production
             - hmpps-common-vars
           requires:
             - request-prod-approval
