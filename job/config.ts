@@ -12,6 +12,7 @@ const {
 const parse = (type: string, value: string) => {
   try {
     return JSON.parse(value)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (e) {
     // Deliberately obfuscate actual error as may contain creds/key
     throw new Error(`An error occurred parsing ${type}`)
