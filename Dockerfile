@@ -2,7 +2,7 @@
 ARG BUILD_NUMBER=1_0_0
 ARG GIT_REF=dummy
 
-FROM node:20-bookworm-slim as base
+FROM node:22-bookworm-slim as base
 
 LABEL maintainer="HMPPS Digital Studio <info@digital.justice.gov.uk>"
 
