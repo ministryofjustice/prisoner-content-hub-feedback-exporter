@@ -1,10 +1,7 @@
 require('dotenv').config()
-// const { readFileSync } = require('node:fs')
-// const path = require('node:path')
+const { readFileSync } = require('node:fs')
+const path = require('node:path')
 
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
 module.exports = {
   migrations: {
     client: 'pg',
@@ -14,10 +11,10 @@ module.exports = {
       user: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      ssl: true,
-      // ssl: {
-      //   ca: readFileSync(path.join(__dirname, '../ca-certificate.crt')),
-      // },
+      ssl: {
+        rejectUnauthorized: false,
+        cert: readFileSync(path.join(__dirname, './global-bundle.pem')),
+      },
     },
     migrations: {
       directory: './database/migrations',

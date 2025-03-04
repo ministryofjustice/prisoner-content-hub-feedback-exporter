@@ -66,6 +66,8 @@ DATABASE_URL=localhost
 DATABASE_NAME=<from secret>
 ```
 
+Next download the PEM file for SSL certification from https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem and place in the root of the app folder.
+
 You can then run the migrations script:
 
 `npm run migrations`
